@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrafikaApp - Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Tambahan Google Fonts Inter di HTML untuk fallback -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<!-- Mengganti bg-color menjadi #121212 untuk dark mode yang lebih deep ala Figma -->
+
+<body class="bg-[#121212] text-gray-300 h-screen w-screen flex overflow-hidden font-sans selection:bg-blue-500/30">
+
+    <!-- PANEL KIRI: Tools & Shapes -->
+    <aside class="w-64 bg-[#222222] border-r border-[#333333] flex flex-col z-10 shadow-2xl">
+        <!-- Header/Logo -->
+        <div class="h-14 flex items-center px-5 border-b border-[#333333]">
+            <div class="w-6 h-6 rounded bg-gradient-to-tr from-blue-600 to-cyan-400 mr-3 shadow-lg shadow-blue-500/20">
+            </div>
+            <span class="font-bold text-sm tracking-widest text-white">GRAFIKA<span
+                    class="text-blue-400 font-medium">APP</span></span>
+        </div>
+
+        <!-- Section: Tools -->
+        <div class="p-5 border-b border-[#333333]">
+            <h3 class="text-[11px] font-bold text-gray-500 mb-4 tracking-widest uppercase">Tools</h3>
+            <div class="grid grid-cols-4 gap-3">
+                <button id="btn-select" class="tool-btn active" title="Select / Move">
+                    <i class="ph ph-cursor"></i>
+                </button>
+                <button id="btn-draw" class="tool-btn" title="Freehand / Pensil Bebas">
+                    <i class="ph ph-pencil-simple"></i>
+                </button>
+                <button id="btn-titik" class="tool-btn" title="Pointer / Titik">
+                    <i class="ph ph-crosshair"></i>
+                </button>
+                <button id="btn-fill" class="tool-btn" title="Fill Area">
+                    <i class="ph ph-paint-bucket"></i>
+                </button>
+                <button id="btn-clear" class="tool-btn text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                    title="Clear Canvas">
+                    <i class="ph ph-trash"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section: Shapes -->
+        <div class="p-5">
+            <h3 class="text-[11px] font-bold text-gray-500 mb-4 tracking-widest uppercase">Shapes</h3>
+            <div class="grid grid-cols-4 gap-3">
+                <button id="btn-garis" class="tool-btn" title="Garis"><i class="ph ph-line-segment"></i></button>
+                <button id="btn-kurva" class="tool-btn" title="Kurva Bezier"><i class="ph ph-wave-sine"></i></button>
+                <button id="btn-lingkaran" class="tool-btn" title="Lingkaran"><i class="ph ph-circle"></i></button>
+                <button id="btn-kotak" class="tool-btn" title="Kotak"><i class="ph ph-square"></i></button>
+                <button id="btn-segitiga" class="tool-btn" title="Segitiga"><i class="ph ph-triangle"></i></button>
+                <button id="btn-segitiga-siku" class="tool-btn" title="Segitiga Siku"><i
+                        class="ph ph-caret-right"></i></button>
+                <button id="btn-diamond" class="tool-btn" title="Belah Ketupat"><i class="ph ph-diamond"></i></button>
+                <button id="btn-segi5" class="tool-btn" title="Pentagon"><i class="ph ph-pentagon"></i></button>
+                <button id="btn-segi6" class="tool-btn" title="Hexagon"><i class="ph ph-hexagon"></i></button>
+                <button id="btn-panah" class="tool-btn" title="Panah"><i class="ph ph-arrow-right"></i></button>
+                <button id="btn-bintang" class="tool-btn" title="Bintang"><i class="ph ph-star"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- PANEL TENGAH: Canvas Area -->
+    <main class="flex-1 relative flex justify-center items-center overflow-auto bg-dot-pattern">
+        <!-- Canvas diberi rounded-lg dan bayangan yang lebih estetik -->
+        <canvas id="mainCanvas"
+            class="bg-white rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-crosshair ring-1 ring-white/10"></canvas>
+    </main>
+
+    <!-- PANEL KANAN: Properties / Pengaturan -->
+    <aside class="w-[300px] bg-[#222222] border-l border-[#333333] flex flex-col z-10 shadow-2xl overflow-y-auto">
+        <div class="h-14 flex items-center px-5 border-b border-[#333333] shrink-0">
+            <span class="font-bold text-[11px] tracking-widest text-gray-400 uppercase">Properties</span>
+        </div>
+
+        <!-- Section: Atribut (Warna, Tebal, Tipe Garis) -->
+        <div class="p-5 border-b border-[#333333]">
+            <h3 class="text-[11px] font-bold text-gray-500 mb-4 tracking-widest uppercase">Style Attributes</h3>
+
+            <!-- Warna Garis (Stroke) -->
+            <div
+                class="flex items-center justify-between bg-[#1a1a1a] p-2.5 rounded-xl border border-[#333333] hover:border-[#444] transition-colors mb-3">
+                <div class="flex items-center gap-3">
+                    <div class="relative w-7 h-7 rounded-lg overflow-hidden border border-gray-600 shadow-inner">
+                        <input type="color" id="color-picker" value="#000000"
+                            class="absolute -top-2 -left-2 w-12 h-12 cursor-pointer">
+                    </div>
+                    <span class="text-sm font-medium text-gray-300">Warna Garis</span>
+                </div>
+            </div>
+
+            <!-- Warna Dalam (Fill) -->
+            <div
+                class="flex items-center justify-between bg-[#1a1a1a] p-2.5 rounded-xl border border-[#333333] hover:border-[#444] transition-colors mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="relative w-7 h-7 rounded-lg overflow-hidden border border-gray-600 shadow-inner">
+                        <input type="color" id="fill-color-picker" value="#cccccc"
+                            class="absolute -top-2 -left-2 w-12 h-12 cursor-pointer">
+                    </div>
+                    <span class="text-sm font-medium text-gray-300">Warna Dalam</span>
+                </div>
+                <input type="checkbox" id="use-fill-checkbox"
+                    class="w-4 h-4 cursor-pointer accent-blue-500 rounded border-gray-600 bg-[#333]">
+            </div>
+
+            <!-- Tebal Garis -->
+            <div class="bg-[#1a1a1a] p-3.5 rounded-xl border border-[#333333] mb-3">
+                <div class="flex justify-between text-xs text-gray-400 font-medium mb-3">
+                    <span>Tebal Garis</span> <span id="width-label"
+                        class="text-white bg-[#333] px-2 py-0.5 rounded text-[10px]">2px</span>
+                </div>
+                <input type="range" id="line-width" min="0" max="12" value="2" class="w-full">
+            </div>
+
+            <!-- Tipe Garis -->
+            <div class="bg-[#1a1a1a] p-3 rounded-xl border border-[#333333]">
+                <div class="text-xs text-gray-400 font-medium mb-2">Tipe Garis</div>
+                <select id="line-style"
+                    class="w-full bg-[#2a2a2a] text-sm text-gray-200 border border-[#444] rounded-lg p-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer">
+                    <option value="solid">Solid (Penuh)</option>
+                    <option value="dashed">Dashed (Putus-putus)</option>
+                    <option value="dotted">Dotted (Titik-titik)</option>
+                    <option value="dash-dotted">Dash-Dotted</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Section: Matriks Transformasi -->
+        <div class="p-5 border-b border-[#333333]">
+            <h3 class="text-[11px] font-bold text-gray-500 mb-4 tracking-widest uppercase">Transform (Live)</h3>
+
+            <!-- Rotasi Slider -->
+            <div
+                class="bg-[#1a1a1a] p-3.5 rounded-xl border border-[#333333] mb-3 group hover:border-[#444] transition-colors">
+                <div class="flex justify-between text-xs text-gray-400 font-medium mb-3">
+                    <span>Rotasi</span> <span id="lbl-rotasi"
+                        class="text-blue-400 font-mono bg-blue-500/10 px-2 py-0.5 rounded">0°</span>
+                </div>
+                <input type="range" id="sl-rotasi" min="-180" max="180" value="0" class="w-full">
+            </div>
+
+            <!-- Skala Slider -->
+            <div
+                class="bg-[#1a1a1a] p-3.5 rounded-xl border border-[#333333] mb-3 group hover:border-[#444] transition-colors">
+                <div class="flex justify-between text-xs text-gray-400 font-medium mb-3">
+                    <span>Skala</span> <span id="lbl-skala"
+                        class="text-blue-400 font-mono bg-blue-500/10 px-2 py-0.5 rounded">1.0x</span>
+                </div>
+                <input type="range" id="sl-skala" min="1" max="50" value="10" class="w-full">
+            </div>
+
+            <!-- Shear Slider -->
+            <div
+                class="bg-[#1a1a1a] p-3.5 rounded-xl border border-[#333333] mb-3 group hover:border-[#444] transition-colors">
+                <div class="flex justify-between text-xs text-gray-400 font-medium mb-3">
+                    <span>Kemiringan X</span> <span id="lbl-shear"
+                        class="text-blue-400 font-mono bg-blue-500/10 px-2 py-0.5 rounded">0.0</span>
+                </div>
+                <input type="range" id="sl-shear" min="-20" max="20" value="0" class="w-full">
+            </div>
+
+            <!-- Refleksi -->
+            <div class="flex gap-2 mt-4">
+                <select id="sel-refleksi"
+                    class="flex-1 bg-[#2a2a2a] text-xs text-gray-300 border border-[#444] rounded-lg p-2 outline-none focus:border-blue-500 transition-all cursor-pointer">
+                    <option value="x">Sumbu X (Vertical)</option>
+                    <option value="y">Sumbu Y (Horizontal)</option>
+                    <option value="origin">Titik Pusat</option>
+                </select>
+                <button id="btn-refleksi"
+                    class="bg-[#333] hover:bg-blue-500 border border-[#444] hover:border-blue-400 px-4 py-2 text-xs font-medium rounded-lg text-white transition-all shadow-sm active:scale-95">Flip</button>
+            </div>
+        </div>
+
+        <!-- Section: Actions -->
+        <div class="p-5">
+            <h3 class="text-[11px] font-bold text-gray-500 mb-4 tracking-widest uppercase">Actions</h3>
+
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <button id="btn-undo"
+                    class="bg-[#2a2a2a] hover:bg-blue-600 hover:text-white hover:border-blue-500 text-gray-300 border border-[#444] p-2.5 text-xs font-medium rounded-xl transition-all flex justify-center items-center gap-2 shadow-sm active:scale-95">
+                    <i class="ph ph-arrow-u-up-left text-lg"></i> Undo
+                </button>
+                <button id="btn-redo"
+                    class="bg-[#2a2a2a] hover:bg-blue-600 hover:text-white hover:border-blue-500 text-gray-300 border border-[#444] p-2.5 text-xs font-medium rounded-xl transition-all flex justify-center items-center gap-2 shadow-sm active:scale-95">
+                    <i class="ph ph-arrow-u-up-right text-lg"></i> Redo
+                </button>
+            </div>
+
+            <button id="btn-delete"
+                class="w-full mb-4 bg-[#2a2a2a] hover:bg-red-500 hover:text-white hover:border-red-400 text-red-400 border border-[#444] p-3 text-xs font-medium rounded-xl transition-all flex justify-center items-center gap-2 shadow-sm active:scale-95">
+                <i class="ph ph-trash text-lg"></i> Hapus Objek
+            </button>
+
+            <div class="border-t border-[#333333] my-4"></div>
+
+            <button id="btn-bg"
+                class="w-full mb-3 bg-[#2a2a2a] hover:bg-[#444] border border-[#444] p-3 text-xs font-medium rounded-xl text-gray-200 transition-all flex justify-center items-center gap-2 shadow-sm active:scale-95">
+                <i class="ph ph-image text-lg"></i> Background Image
+            </button>
+            <button id="btn-save"
+                class="w-full bg-blue-600 hover:bg-blue-500 border border-blue-500 p-3 text-xs font-medium rounded-xl text-white transition-all flex justify-center items-center gap-2 shadow-[0_4px_14px_0_rgba(59,130,246,0.39)] active:scale-95">
+                <i class="ph ph-download-simple text-lg"></i> Export PNG
+            </button>
+
+            <input type="file" id="file-upload" accept="image/*" class="hidden">
+        </div>
+    </aside>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+
+</html>
