@@ -200,6 +200,7 @@ export class MouseController {
             currentX - pivot.x,
             currentY - pivot.y,
           );
+
           if (startDist > 0) {
             const scaleFactor = currentDist / startDist;
             applyCompositeMatrix(
@@ -208,8 +209,13 @@ export class MouseController {
               pivot.x,
               pivot.y,
             );
-            if (AppState.selectedShape.type === "LINGKARAN")
+
+            if (AppState.selectedShape.type === "LINGKARAN") {
               AppState.selectedShape.r *= scaleFactor;
+            } else if (AppState.selectedShape.type === "ELIPS") {
+              AppState.selectedShape.rx *= scaleFactor;
+              AppState.selectedShape.ry *= scaleFactor;
+            }
           }
         }
         AppState.lastX = currentX;

@@ -6,6 +6,7 @@ import {
   getReflectMatrix,
   getRotateMatrix,
   getScaleMatrix,
+  getTranslateMatrix,
   applyCompositeMatrix,
 } from "../models/math/matrix.js";
 
@@ -101,7 +102,7 @@ export class TransformController {
     setupSlider(
       "sl-rotasi",
       "lbl-rotasi",
-      (v) => Math.round(v) + "°",
+      (v) => Math.round(v) + "\u00B0",
       (v) => getRotateMatrix(v),
     );
     setupSlider(
@@ -110,16 +111,31 @@ export class TransformController {
       (v) => v.toFixed(1) + "x",
       (v) => getScaleMatrix(v, v),
       (v, temp) => {
-        if (AppState.selectedShape.type === "LINGKARAN")
+        if (AppState.selectedShape.type === "LINGKARAN") {
           AppState.selectedShape.r = temp.r * v;
+        } else if (AppState.selectedShape.type === "ELIPS") {
+          AppState.selectedShape.rx = temp.rx * v;
+          AppState.selectedShape.ry = temp.ry * v;
+        }
       },
     );
-    setupSlider(
-      "sl-shear",
-      "lbl-shear",
-      (v) => v.toFixed(1),
-      (v) => getShearMatrix(v, 0),
-    );
+
+    // TAMBAHKAN Logika Transalasi
+    const nudgeButtons = document.querySelectorAll(".btn-nudge");
+    nudgeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (!AppState.selectedShape) return;
+        const tx = parseInt(btn.getAttribute("data-x"));
+        const ty = parseInt(btn.getAttribute("data-y"));
+        AppState.selectedShape.applyMatrix(getTranslateMatrix(tx, ty));
+        this.canvasView.renderAll(
+          AppState.shapes,
+          AppState.selectedShape,
+          AppState.bgImage,
+        );
+        HistoryManager.saveState();
+      });
+    });
 
     document.getElementById("btn-refleksi")?.addEventListener("click", () => {
       const pivot = getPivot();

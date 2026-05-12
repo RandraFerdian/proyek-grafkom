@@ -2,8 +2,8 @@ export class CanvasView {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext("2d", { willReadFrequently: true });
-    this.canvas.width = 800;
-    this.canvas.height = 600;
+    this.canvas.width = window.innerWidth - 256 - 300 - 80;
+    this.canvas.height = window.innerHeight - 80;
     this.clear();
   }
 

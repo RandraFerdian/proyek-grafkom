@@ -12,6 +12,8 @@ import { StarShape } from "../models/shapes/StarShape.js";
 import { CurveShape } from "../models/shapes/CurveShape.js";
 import { CircleShape } from "../models/shapes/CircleShape.js";
 import { FreehandShape } from "../models/shapes/FreehandShape.js";
+import { EllipseShape } from "../models/shapes/EllipseShape.js";
+import { ParallelogramShape } from "../models/shapes/ParallelogramShape.js";
 
 export class ShapeFactory {
   static createShape(tool, x0, y0, x1, y1, color) {
@@ -50,11 +52,23 @@ export class ShapeFactory {
       case "KURVA":
         shape = new CurveShape(x0, y0, x1, y1, color);
         break;
-      case "LINGKARAN":
+      case "LINGKARAN": {
         const r = Math.round(
           Math.sqrt(Math.pow(x1 - x0, 2) + Math.pow(y1 - y0, 2)),
         );
         shape = new CircleShape(x0, y0, r, color);
+        break;
+      }
+      case "ELIPS": {
+        const rx = Math.round(Math.abs(x1 - x0) / 2);
+        const ry = Math.round(Math.abs(y1 - y0) / 2);
+        const cx = Math.min(x0, x1) + rx;
+        const cy = Math.min(y0, y1) + ry;
+        shape = new EllipseShape(cx, cy, rx, ry, color);
+        break;
+      }
+      case "JAJAR_GENJANG":
+        shape = new ParallelogramShape(x0, y0, x1, y1, color);
         break;
     }
     // Pasang atribut ketebalan dan gaya bawaan

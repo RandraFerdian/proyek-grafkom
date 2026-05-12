@@ -2,14 +2,12 @@
 export function applyMatrixToPoint(matrix, x, y) {
   const point = [x, y, 1];
   let result = [0, 0, 0];
-
   for (let i = 0; i < 3; i++) {
     result[i] =
       matrix[i][0] * point[0] +
       matrix[i][1] * point[1] +
       matrix[i][2] * point[2];
   }
-
   return {
     x: result[0],
     y: result[1],
@@ -71,6 +69,15 @@ export function getScaleMatrix(sx, sy) {
   return [
     [sx, 0, 0],
     [0, sy, 0],
+    [0, 0, 1],
+  ];
+}
+
+// Matriks Translasi yang letaknya sudah dikeluarkan agar sejajar
+export function getTranslateMatrix(tx, ty) {
+  return [
+    [1, 0, tx],
+    [0, 1, ty],
     [0, 0, 1],
   ];
 }

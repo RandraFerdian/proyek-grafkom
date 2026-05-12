@@ -18,6 +18,8 @@ export class ToolbarView {
       PANAH: document.getElementById("btn-panah"),
       KURVA: document.getElementById("btn-kurva"),
       LINGKARAN: document.getElementById("btn-lingkaran"),
+      ELIPS: document.getElementById("btn-elips"),
+      JAJAR_GENJANG: document.getElementById("btn-jajar-genjang"),
     };
 
     this.colorPicker = document.getElementById("color-picker");

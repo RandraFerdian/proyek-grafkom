@@ -56,7 +56,10 @@
                 <button id="btn-garis" class="tool-btn" title="Garis"><i class="ph ph-line-segment"></i></button>
                 <button id="btn-kurva" class="tool-btn" title="Kurva Bezier"><i class="ph ph-wave-sine"></i></button>
                 <button id="btn-lingkaran" class="tool-btn" title="Lingkaran"><i class="ph ph-circle"></i></button>
+                <button id="btn-elips" class="tool-btn" title="Elips"><i class="ph ph-circle scale-x-125"></i></button>
                 <button id="btn-kotak" class="tool-btn" title="Kotak"><i class="ph ph-square"></i></button>
+                <button id="btn-jajar-genjang" class="tool-btn" title="Jajar Genjang"><i
+                        class="ph ph-parallelogram"></i></button>
                 <button id="btn-segitiga" class="tool-btn" title="Segitiga"><i class="ph ph-triangle"></i></button>
                 <button id="btn-segitiga-siku" class="tool-btn" title="Segitiga Siku"><i
                         class="ph ph-caret-right"></i></button>
@@ -158,14 +161,52 @@
                 <input type="range" id="sl-skala" min="1" max="50" value="10" class="w-full">
             </div>
 
-            <!-- Shear Slider -->
+            <!-- D-Pad Translasi (Arah Mata Angin) -->
             <div
-                class="bg-[#1a1a1a] p-3.5 rounded-xl border border-[#333333] mb-3 group hover:border-[#444] transition-colors">
-                <div class="flex justify-between text-xs text-gray-400 font-medium mb-3">
-                    <span>Kemiringan X</span> <span id="lbl-shear"
-                        class="text-blue-400 font-mono bg-blue-500/10 px-2 py-0.5 rounded">0.0</span>
+                class="bg-[#1a1a1a] p-4 rounded-xl border border-[#333333] mb-3 group hover:border-[#444] transition-colors flex flex-col items-center shadow-inner">
+                <div class="w-full flex justify-between text-xs text-gray-400 font-medium mb-3">
+                    <span>Geser Presisi (Nudge)</span> <span
+                        class="text-[10px] bg-[#333] text-blue-400 font-mono px-2 py-0.5 rounded border border-[#444]">5px/klik</span>
                 </div>
-                <input type="range" id="sl-shear" min="-20" max="20" value="0" class="w-full">
+
+                <!-- Grid 3x3 -->
+                <div class="grid grid-cols-3 gap-1.5 w-36">
+                    <button
+                        class="btn-nudge bg-[#2a2a2a] hover:bg-blue-500 text-gray-400 hover:text-white rounded-lg aspect-square flex justify-center items-center transition-all active:scale-75 shadow-sm"
+                        data-x="-5" data-y="-5" title="Serong Kiri Atas"><i
+                            class="ph ph-arrow-up-left text-xl"></i></button>
+                    <button
+                        class="btn-nudge bg-[#2a2a2a] hover:bg-blue-500 text-gray-400 hover:text-white rounded-lg aspect-square flex justify-center items-center transition-all active:scale-75 shadow-sm"
+                        data-x="0" data-y="-5" title="Atas"><i class="ph ph-arrow-up text-xl"></i></button>
+                    <button
+                        class="btn-nudge bg-[#2a2a2a] hover:bg-blue-500 text-gray-400 hover:text-white rounded-lg aspect-square flex justify-center items-center transition-all active:scale-75 shadow-sm"
+                        data-x="5" data-y="-5" title="Serong Kanan Atas"><i
+                            class="ph ph-arrow-up-right text-xl"></i></button>
+
+                    <button
+                        class="btn-nudge bg-[#2a2a2a] hover:bg-blue-500 text-gray-400 hover:text-white rounded-lg aspect-square flex justify-center items-center transition-all active:scale-75 shadow-sm"
+                        data-x="-5" data-y="0" title="Kiri"><i class="ph ph-arrow-left text-xl"></i></button>
+
+                    <!-- Titik Poros Tengah (Hanya Hiasan Estetik) -->
+                    <div class="flex justify-center items-center text-gray-600"><i
+                            class="ph ph-circle-fill text-[8px]"></i></div>
+
+                    <button
+                        class="btn-nudge bg-[#2a2a2a] hover:bg-blue-500 text-gray-400 hover:text-white rounded-lg aspect-square flex justify-center items-center transition-all active:scale-75 shadow-sm"
+                        data-x="5" data-y="0" title="Kanan"><i class="ph ph-arrow-right text-xl"></i></button>
+
+                    <button
+                        class="btn-nudge bg-[#2a2a2a] hover:bg-blue-500 text-gray-400 hover:text-white rounded-lg aspect-square flex justify-center items-center transition-all active:scale-75 shadow-sm"
+                        data-x="-5" data-y="5" title="Serong Kiri Bawah"><i
+                            class="ph ph-arrow-down-left text-xl"></i></button>
+                    <button
+                        class="btn-nudge bg-[#2a2a2a] hover:bg-blue-500 text-gray-400 hover:text-white rounded-lg aspect-square flex justify-center items-center transition-all active:scale-75 shadow-sm"
+                        data-x="0" data-y="5" title="Bawah"><i class="ph ph-arrow-down text-xl"></i></button>
+                    <button
+                        class="btn-nudge bg-[#2a2a2a] hover:bg-blue-500 text-gray-400 hover:text-white rounded-lg aspect-square flex justify-center items-center transition-all active:scale-75 shadow-sm"
+                        data-x="5" data-y="5" title="Serong Kanan Bawah"><i
+                            class="ph ph-arrow-down-right text-xl"></i></button>
+                </div>
             </div>
 
             <!-- Refleksi -->
